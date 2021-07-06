@@ -2,7 +2,6 @@
 # eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
 ### Getting all forumPosts
 GET https://localhost:8080/forum/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTYyMzAwODM1OCwiZXhwIjoxNjIzMDM4MzU4fQ.xm20VsPNzydbgf6Cat0C4fUUV97IXAxB4h6id0He9MY
 
 ### Creating a forumPost - Token needs to match userID
 POST https://localhost:8080/forum/

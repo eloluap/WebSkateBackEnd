@@ -7,21 +7,15 @@ var forumPostService = require('./ForumPostService');
 const { isAuthenticated } = require('../utils/AuthenticationUtils');
 
 // Route for getting a list with all forumPosts
-router.get('/', isAuthenticated, function (req, res) {
+router.get('/', function (req, res) {
     logger.debug("Trying to read all forumPosts");
-    const permission = ac.can(req.role).readAny('forumPost');
-    if (permission.granted) {
-        forumPostService.getForumPosts(function (err, result) {
-            if (result) {
-                res.send(Object.values(result));
-            } else {
-                res.status(500).end();
-            }
-        });
-    } else {
-        logger.error("No permission for reading all forumPosts");
-        res.status(401).end();
-    }
+    forumPostService.getForumPosts(function (err, result) {
+        if (result) {
+            res.send(Object.values(result));
+        } else {
+            res.status(500).end();
+        }
+    });
 });
 
 // Route for creating a forumPost with values from the jsonbody "forumPost"
