@@ -1,0 +1,41 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+### Getting all recensions of a skatepark with skateparkID as a parameter
+GET https://localhost:8080/recension/skatepark/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+
+### Creating a recension - Token needs to match userID and skateparkID (as parameter and in body) needs to match an existing skatepark
+POST https://localhost:8080/recension/skatepark/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+Content-Type: application/json 
+
+{
+    "recension": 
+    {
+        "userID": "eloluap",
+        "skateparkID": "1",
+        "content": "That is the 1st recension on the 1st Skatepark",
+        "rating": 3
+    }
+}
+
+### Reading a recension - needs the recensionID as a parameter
+GET https://localhost:8080/recension/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+
+### Updating a recension - Token needs to match userID of the recension - needs recensionID as a parameter
+PUT https://localhost:8080/recension/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+Content-Type: application/json 
+
+{
+    "recension": 
+    {
+        "content": "That is a updated Recension on a Skatepark",
+        "rating": 5
+    }
+}
+
+### Deleting a recension - needs recensionID as a parameter
+DELETE https://localhost:8080/recension/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g

@@ -1,0 +1,40 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+### Getting all skateparks
+GET https://localhost:8080/skatepark/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjgyOTA0NCwiZXhwIjoxNjIyODU5MDQ0fQ.l-gSe2pAIj7irevi2dH_1Fw_t7f_M4kIXeVJkEVGD8g
+
+### Creating a skatepark - Token needs to be from an admin user
+POST https://localhost:8080/skatepark/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g
+Content-Type: application/json 
+
+{
+    "skatepark": 
+    {
+        "name": "Skatepark Marienfelde",
+        "content": "That is the content of a Skatepark in Marienfelde"
+    }
+}
+
+
+### Reading a skatepark
+GET https://localhost:8080/skatepark/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g
+
+### Updating a skatepark - Token needs to be form an admin user - needs skateparkID as a parameter
+PUT https://localhost:8080/skatepark/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g
+Content-Type: application/json 
+
+{
+    "skatepark": 
+    {
+        "name": "Updated Skatepark",
+        "content": "That is a updated Skatepark"
+    }
+}
+
+### Deleting a skatepark - needs skateparkID as a parameter
+DELETE https://localhost:8080/skatepark/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI4Mjg5NjUsImV4cCI6MTYyMjg1ODk2NX0.ESLI_W4l7lbKbSvvzSfkV2-_EtWzfjJO-g8VI_IGU1g

@@ -1,0 +1,379 @@
+### - Admin-Login, braucht base64 von admin:admin
+POST https://localhost:8080/authenticate/loginBasic
+Authorization: Basic YWRtaW46YWRtaW4=
+
+#### Save the token!
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjMwMTI1MTEsImV4cCI6MTYyMzA0MjUxMX0.OAUYugNDZT9Is6h2qhkSWf2eMZSM88Z9g8Q-hkdKze0
+
+### Creating a user - needs jsonbody user
+POST https://localhost:8080/users/
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userID": "eloluap",
+        "email": "eloluap@gmail.com",
+        "password": "testuser"
+    }
+}
+
+### Getting all users - With Authentication
+GET https://localhost:8080/users
+Authorization: Bearer {{adminToken}}
+
+### - User-Login (eloluap muss existieren), braucht base64 von eloluap:testuser
+POST https://localhost:8080/authenticate/loginBasic
+Authorization: Basic ZWxvbHVhcDp0ZXN0dXNlcg==
+
+### Save the token!
+@eloluapToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMzAxMjU5NiwiZXhwIjoxNjIzMDQyNTk2fQ.M0Jtfhu4ImCSDR6BbKMdFKDcfy6JOxGmfLKgCth4xgo
+
+### Updating a user
+PUT https://localhost:8080/users/eloluap
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userName": "elo",
+        "email": "elo@gmail.com",
+        "password": "testing"
+    }
+}
+
+### Deleting a user
+DELETE https://localhost:8080/users/eloluap
+Authorization: Bearer {{eloluapToken}}
+
+### Creating a user - needs jsonbody user
+POST https://localhost:8080/users/
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userID": "eloluap",
+        "email": "eloluap@gmail.com",
+        "password": "testuser"
+    }
+}
+
+### Registering a user - needs jsonbody user - enter your email at "email"
+POST https://localhost:8080/registration/
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userID": "Paul",
+        "email": "p.saalfeld@flohr-cie.de",
+        "password": "PaulTest"
+    }
+}
+
+### Save the token!
+@PaulToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTYyMzAxMzAyNSwiZXhwIjoxNjIzMDQzMDI1fQ.dBMWZxCzogSyyYMS9aLsOQvrqmaC-KTB55_IDLGdKVA
+
+### Clicking on Email link - needs inserted link
+GET "insert here"
+
+### Creating a forumPost - Token needs to match userID
+POST https://localhost:8080/forum/
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "userID": "eloluap",
+        "titel": "First Post",
+        "content": "That is the first Post in the Forum"
+    }
+}
+
+### Creating a forumPost - Token needs to match userID
+POST https://localhost:8080/forum/
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "userID": "admin",
+        "titel": "Second Post",
+        "content": "That is the second Post in the Forum"
+    }
+}
+
+### Reading a forumPost
+GET https://localhost:8080/forum/1
+Authorization: Bearer {{eloluapToken}}
+
+### Updating a forumPost - Token needs to match userID of the post
+PUT https://localhost:8080/forum/1
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "titel": "Updated Post",
+        "content": "That is a updated Post in the Forum"
+    }
+}
+
+### Creating a forumPost - Token needs to match userID
+POST https://localhost:8080/forum/
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "userID": "eloluap",
+        "titel": "Third Post",
+        "content": "That is the third Post in the Forum"
+    }
+}
+
+### Getting all forumPosts
+GET https://localhost:8080/forum/
+Authorization: Bearer {{eloluapToken}}
+
+### Deleting a forumPost
+DELETE https://localhost:8080/forum/3
+Authorization: Bearer {{adminToken}}
+
+### Getting all forumPosts
+GET https://localhost:8080/forum/
+Authorization: Bearer {{adminToken}}
+
+### Creating a comment - Token needs to match userID and postID (as parameter and in body) needs to match an existing post
+POST https://localhost:8080/comment/forum/2
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "comment": 
+    {
+        "userID": "eloluap",
+        "postID": "2",
+        "content": "That is the 1st comment on the 2nd ForumPost"
+    }
+}
+
+### Creating a comment - Token needs to match userID and postID (as parameter and in body) needs to match an existing post
+POST https://localhost:8080/comment/forum/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "comment": 
+    {
+        "userID": "admin",
+        "postID": "2",
+        "content": "That is the 2nd comment on the 2nd ForumPost"
+    }
+}
+
+### Reading a comment - needs the commentID as a parameter
+GET https://localhost:8080/comment/1
+Authorization: Bearer {{eloluapToken}}
+
+### Updating a comment - Token needs to match userID of the comment - needs commentID as a parameter
+PUT https://localhost:8080/comment/1
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "comment": 
+    {
+        "content": "That is a updated Comment on a ForumPost"
+    }
+}
+
+### Getting all comments of a post with postID as a parameter
+GET https://localhost:8080/comment/forum/2
+Authorization: Bearer {{eloluapToken}}
+
+### Deleting a comment - needs commentID as a parameter
+DELETE https://localhost:8080/comment/1
+Authorization: Bearer {{adminToken}}
+
+### Getting all comments of a post with postID as a parameter
+GET https://localhost:8080/comment/forum/2
+Authorization: Bearer {{eloluapToken}}
+
+### Creating a skatepark - Token needs to be from an admin user
+POST https://localhost:8080/skatepark/
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "skatepark": 
+    {
+        "name": "Skatepark Marienfelde",
+        "content": "That is the content of a Skatepark in Marienfelde"
+    }
+}
+
+### Creating a skatepark - Token needs to be from an admin user
+POST https://localhost:8080/skatepark/
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "skatepark": 
+    {
+        "name": "Skatepark Tempelhof",
+        "content": "Another Skatepark"
+    }
+}
+
+### Reading a skatepark
+GET https://localhost:8080/skatepark/2
+Authorization: Bearer {{adminToken}}
+
+### Updating a skatepark - Token needs to be form an admin user - needs skateparkID as a parameter
+PUT https://localhost:8080/skatepark/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "skatepark": 
+    {
+        "name": "Updated Skatepark",
+        "content": "That is a updated Skatepark"
+    }
+}
+
+### Getting all skateparks
+GET https://localhost:8080/skatepark/
+Authorization: Bearer {{eloluapToken}}
+
+### Deleting a skatepark - needs skateparkID as a parameter
+DELETE https://localhost:8080/skatepark/2
+Authorization: Bearer {{adminToken}}
+
+### Getting all skateparks
+GET https://localhost:8080/skatepark/
+Authorization: Bearer {{adminToken}}
+
+### Creating a recension - Token needs to match userID and skateparkID (as parameter and in body) needs to match an existing skatepark
+POST https://localhost:8080/recension/skatepark/1
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "recension": 
+    {
+        "userID": "eloluap",
+        "skateparkID": "1",
+        "content": "That is the 1st recension on the 1st Skatepark",
+        "rating": 3
+    }
+}
+
+### Creating a recension - Token needs to match userID and skateparkID (as parameter and in body) needs to match an existing skatepark
+POST https://localhost:8080/recension/skatepark/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json 
+
+{
+    "recension": 
+    {
+        "userID": "admin",
+        "skateparkID": "1",
+        "content": "That is the 2nd recension on the 1st Skatepark",
+        "rating": 4
+    }
+}
+
+### Reading a recension - needs the recensionID as a parameter
+GET https://localhost:8080/recension/1
+Authorization: Bearer {{adminToken}}
+
+### Updating a recension - Token needs to match userID of the recension - needs recensionID as a parameter
+PUT https://localhost:8080/recension/1
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "recension": 
+    {
+        "content": "That is a updated Recension on a Skatepark",
+        "rating": 5
+    }
+}
+
+### Getting all recensions of a skatepark with skateparkID as a parameter
+GET https://localhost:8080/recension/skatepark/1
+Authorization: Bearer {{adminToken}}
+
+### Deleting a recension - needs recensionID as a parameter
+DELETE https://localhost:8080/recension/1
+Authorization: Bearer {{adminToken}}
+
+### Getting all recensions of a skatepark with skateparkID as a parameter
+GET https://localhost:8080/recension/skatepark/1
+Authorization: Bearer {{eloluapToken}}
+
+### Creating a chat - needs userID of other user as a parameter
+POST https://localhost:8080/chat/eloluap
+Authorization: Bearer {{adminToken}}
+
+### Creating a chat - needs userID of other user as a parameter
+POST https://localhost:8080/chat/Paul
+Authorization: Bearer {{eloluapToken}}
+
+### Getting all your chats
+GET https://localhost:8080/chat/
+Authorization: Bearer {{eloluapToken}}
+
+### Getting all your chats
+GET https://localhost:8080/chat/
+Authorization: Bearer {{adminToken}}
+
+### Getting all your chats
+GET https://localhost:8080/chat/
+Authorization: Bearer {{PaulToken}}
+
+### Creating a message - needs chatID as a parameter
+POST https://localhost:8080/message/2
+Authorization: Bearer {{eloluapToken}}
+Content-Type: application/json 
+
+{
+    "message": 
+    {
+        "userID": "eloluap",
+        "chatID": "2",
+        "content": "That is a message to Paul"
+    }
+}
+
+### Creating a message - needs chatID as a parameter
+POST https://localhost:8080/message/2
+Authorization: Bearer {{PaulToken}}
+Content-Type: application/json 
+
+{
+    "message": 
+    {
+        "userID": "Paul",
+        "chatID": "2",
+        "content": "That is a return message to eloluap"
+    }
+}
+
+### Getting all your messages from a chat with the chatID
+GET https://localhost:8080/message/2
+Authorization: Bearer {{eloluapToken}}
+
+### Getting all your chats
+GET https://localhost:8080/chat/
+Authorization: Bearer {{eloluapToken}}

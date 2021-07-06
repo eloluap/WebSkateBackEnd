@@ -1,0 +1,23 @@
+{
+    "session": {
+        "timeout": 30000
+    },
+    "db": {
+        "dbConfigOptions": {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true,
+            "useCreateIndex": true
+        },
+        "connectionString": "mongodb://localhost:27017/SkateBerlin"
+    },
+    "admin": {
+        "userID": "admin",
+        "role": "admin",
+        "email": "admin@admin.com",
+        "password": "admin"
+    },
+    "email": {
+        "emailName": "PaulWebEngineering2@gmail.com",
+        "emailPassword": "WebEngineering"
+    }
+}

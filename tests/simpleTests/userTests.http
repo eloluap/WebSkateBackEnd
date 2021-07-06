@@ -1,0 +1,42 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI5OTIyMTgsImV4cCI6MTYyMzAyMjIxOH0.1q4iOisbQ11uSDCZXGOc0F-pm28TzQU5-N2chRV3ztM
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI
+
+### Getting all users - With Authentication
+GET https://localhost:8080/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI5OTIyMTgsImV4cCI6MTYyMzAyMjIxOH0.1q4iOisbQ11uSDCZXGOc0F-pm28TzQU5-N2chRV3ztM
+
+### Creating a user - needs jsonbody user
+POST https://localhost:8080/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI5OTIyMTgsImV4cCI6MTYyMzAyMjIxOH0.1q4iOisbQ11uSDCZXGOc0F-pm28TzQU5-N2chRV3ztM
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userID": "eloluap",
+        "email": "eloluap@gmail.com",
+        "password": "testuser"
+    }
+}
+
+### Reading a user
+GET https://localhost:8080/users/Paul
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTYyMzAwODM1OCwiZXhwIjoxNjIzMDM4MzU4fQ.xm20VsPNzydbgf6Cat0C4fUUV97IXAxB4h6id0He9MY
+
+### Updating a user
+PUT https://localhost:8080/users/eloluap
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI
+Content-Type: application/json 
+
+{
+    "user": 
+    {
+        "userName": "elo",
+        "email": "elo@gmail.com",
+        "password": "testing"
+    }
+}
+
+### Deleting a user
+DELETE https://localhost:8080/users/eloluap
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI

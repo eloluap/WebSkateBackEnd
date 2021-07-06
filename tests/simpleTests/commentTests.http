@@ -1,0 +1,39 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI3MjY4OTEsImV4cCI6MTYyMjc1Njg5MX0.LW-B6TImmHbKOuzLRxAScQRPsX4zd7D7Lr45QDfshAU
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+### Getting all comments of a post with postID as a parameter
+GET https://localhost:8080/comment/forum/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI3NjE4NjgsImV4cCI6MTYyMjc5MTg2OH0.vdz_dqSIlTsq2VpaaiZy050V2sIfveq9jc_bQu-uy5g
+
+### Creating a comment - Token needs to match userID and postID (as parameter and in body) needs to match an existing post
+POST https://localhost:8080/comment/forum/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+Content-Type: application/json 
+
+{
+    "comment": 
+    {
+        "userID": "eloluap",
+        "postID": "4",
+        "content": "That is the 1st comment on the 4th ForumPost"
+    }
+}
+
+### Reading a comment - needs the commentID as a parameter
+GET https://localhost:8080/comment/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+
+### Updating a comment - Token needs to match userID of the comment - needs commentID as a parameter
+PUT https://localhost:8080/comment/15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+Content-Type: application/json 
+
+{
+    "comment": 
+    {
+        "content": "That is a updated Comment on a ForumPost"
+    }
+}
+
+### Deleting a comment - needs commentID as a parameter
+DELETE https://localhost:8080/comment/15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk

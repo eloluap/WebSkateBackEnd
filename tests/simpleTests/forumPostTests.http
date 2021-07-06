@@ -1,0 +1,40 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI3MjY4OTEsImV4cCI6MTYyMjc1Njg5MX0.LW-B6TImmHbKOuzLRxAScQRPsX4zd7D7Lr45QDfshAU
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+### Getting all forumPosts
+GET https://localhost:8080/forum/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTYyMzAwODM1OCwiZXhwIjoxNjIzMDM4MzU4fQ.xm20VsPNzydbgf6Cat0C4fUUV97IXAxB4h6id0He9MY
+
+### Creating a forumPost - Token needs to match userID
+POST https://localhost:8080/forum/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjIzMzAxNSwiZXhwIjoxNjIyMjYzMDE1fQ.sfAABYdv0LJan3HtFq7fH0berwjXsHVDINBr-pDQI8s
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "userID": "eloluap",
+        "titel": "First Post",
+        "content": "That is the first Post in the Forum"
+    }
+}
+
+### Reading a forumPost
+GET https://localhost:8080/forum/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+
+### Updating a forumPost - Token needs to match userID of the post
+PUT https://localhost:8080/forum/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjMzMzY5NiwiZXhwIjoxNjIyMzYzNjk2fQ.7Mcg1t2ND3eJ7GRUWlSnr8YKp1LTd3cRZpgbP1U9TZw
+Content-Type: application/json 
+
+{
+    "forumPost": 
+    {
+        "titel": "Updated Post",
+        "content": "That is a updated Post in the Forum"
+    }
+}
+
+### Deleting a forumPost
+DELETE https://localhost:8080/forum/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjIzNzM3MDMsImV4cCI6MTYyMjQwMzcwM30.bSdE329Jqffw_2Vicxl1YWj8jO9MtQSvuutdhLRCSNo

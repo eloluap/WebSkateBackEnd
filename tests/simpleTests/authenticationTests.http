@@ -1,0 +1,7 @@
+### - Admin-Login, braucht base64 von admin:admin
+POST https://localhost:8080/authenticate/loginBasic
+Authorization: Basic YWRtaW46YWRtaW4=
+
+### - User-Login (eloluap muss existieren), braucht base64 von eloluap:testuser
+POST https://localhost:8080/authenticate/loginBasic
+Authorization: Basic ZWxvbHVhcDp0ZXN0dXNlcg==

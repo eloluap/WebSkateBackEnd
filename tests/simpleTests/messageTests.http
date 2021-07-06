@@ -1,0 +1,19 @@
+# admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI5OTIyMTgsImV4cCI6MTYyMzAyMjIxOH0.1q4iOisbQ11uSDCZXGOc0F-pm28TzQU5-N2chRV3ztM
+# eloluap: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI
+### Getting all your messages from a chat with the chatID
+GET https://localhost:8080/message/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI
+
+### Creating a message - needs chatID as a parameter
+POST https://localhost:8080/message/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjk5MjI1MCwiZXhwIjoxNjIzMDIyMjUwfQ.6k543nNKEQ0hCA9LWTneZ9kmf6lf09CXq65ODSWoMyI
+Content-Type: application/json 
+
+{
+    "message": 
+    {
+        "userID": "eloluap",
+        "chatID": "2",
+        "content": "That is a message to an admin"
+    }
+}
