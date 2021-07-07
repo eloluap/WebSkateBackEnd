@@ -21,11 +21,12 @@ router.get('/', function (req, res) {
 // Route for creating a forumPost with values from the jsonbody "forumPost"
 router.post('/', isAuthenticated, function (req, res) {
     logger.debug("Trying to create forumPost");
-    const permission = (req.userID === req.body.forumPost.userID)
+    const permission = (req.userID === req.userID)
         ? ac.can(req.role).createOwn('forumPost')
         : ac.can(req.role).createAny('forumPost');
     if (permission.granted) {
         if (req.body.forumPost) {
+            req.body.forumPost.userID = req.userID;
             forumPostService.createForumPost(req.body.forumPost, function (error, result) {
                 if (result) {
                     logger.info("Successfully created forumPost: " + result.postID);

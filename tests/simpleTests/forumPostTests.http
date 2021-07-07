@@ -3,15 +3,14 @@
 ### Getting all forumPosts
 GET https://localhost:8080/forum/
 
-### Creating a forumPost - Token needs to match userID
+### Creating a forumPost - Token needs to match userID eloluap
 POST https://localhost:8080/forum/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjIzMzAxNSwiZXhwIjoxNjIyMjYzMDE1fQ.sfAABYdv0LJan3HtFq7fH0berwjXsHVDINBr-pDQI8s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyNTY3NzEwMiwiZXhwIjoxNjI1NzA3MTAyfQ.ss2SXrpAcf8eIUkgJdrebf4_CEuSR0bNZ8EWBEte_Cw
 Content-Type: application/json 
 
 {
     "forumPost": 
     {
-        "userID": "eloluap",
         "titel": "First Post",
         "content": "That is the first Post in the Forum"
     }
