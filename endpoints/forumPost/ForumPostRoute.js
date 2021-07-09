@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
     logger.debug("Trying to read all forumPosts");
     forumPostService.getForumPosts(function (err, result) {
         if (result) {
-            res.send(Object.values(result));
+            res.send(result);
         } else {
             res.status(500).end();
         }
@@ -47,25 +47,19 @@ router.post('/', isAuthenticated, function (req, res) {
 });
 
 // Route for reading the forumPost with the postID as a parameter
-router.get('/:postID', isAuthenticated, function (req, res) {
+router.get('/:postID', function (req, res) {
     logger.debug("Trying to read forumPost");
-    const permission = ac.can(req.role).readAny('forumPost');
-    if (permission.granted) {
-        forumPostService.findPostBy(req.params.postID, function (error, result) {
-            if (result) {
-                logger.debug("Successfully read forumPost: " + result.postID);
-                const { postID, userID, titel, content, ...partialObject } = result;
-                const subset = { postID, userID, titel, content };
-                res.send(subset);
-            } else {
-                logger.error("There is no forumPost with this postID");
-                res.status(400).end();
-            }
-        });
-    } else {
-        logger.error("No permission for reading a forumPost");
-        res.status(401).end();
-    }
+    forumPostService.findPostBy(req.params.postID, function (error, result) {
+        if (result) {
+            logger.debug("Successfully read forumPost: " + result.postID);
+            /* const { postID, userID, titel, content, ...partialObject } = result;
+            const subset = { postID, userID, titel, content }; */
+            res.send(result);
+        } else {
+            logger.error("There is no forumPost with this postID");
+            res.status(400).end();
+        }
+    });
 });
 
 // Route for updating the forumPost with the postID as a parameter - needs jsonbody "forumPost" with new values

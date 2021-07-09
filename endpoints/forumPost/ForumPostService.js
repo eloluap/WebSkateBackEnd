@@ -2,6 +2,8 @@ const ForumPost = require('./ForumPostModel');
 const User = require('../user/UserModel');
 var logger = require('../../config/winston');
 
+var userService = require('../user/UserService');
+
 function getForumPosts(callback) {
     var query = ForumPost.find();
     query.select('postID userID titel content -_id');
@@ -10,8 +12,34 @@ function getForumPosts(callback) {
             logger.error("Error on forumPost search: " + err)
             return callback(err, null);
         } else {
-            logger.debug("ForumPosts found: " + forumPosts);
-            return callback(null, forumPosts);
+            var returnPosts = [];
+            var waitForEach = new Promise((resolve, reject) => {
+                forumPosts.forEach((e, index, array) => {
+                    userService.findUserBy(e.userID, (error, user) => {
+                        var userID = e.userID;
+                        var userName = '[Gelöscht]'
+                        if (user !== null) {
+                            userName = user.userName;
+                        }
+                        var postID = e.postID;
+                        var titel = e.titel;
+                        var content = e.content;
+                        returnPosts.push({
+                            userID,
+                            userName,
+                            postID,
+                            titel,
+                            content
+                        });
+                        if (index === array.length - 1) resolve();
+                    });
+                });
+            });
+
+            waitForEach.then(() => {
+                logger.debug("ForumPosts found: " + returnPosts);
+                return callback(null, returnPosts);
+            });
         }
     });
 }
@@ -29,7 +57,24 @@ function findPostBy(searchPostID, callback) {
                 return callback("Did not find forumPost for postID: " + searchPostID, null);
             } else {
                 logger.debug(`Found postID: ${searchPostID}`);
-                callback(null, forumPost);
+                userService.findUserBy(forumPost.userID, (error, user) => {
+                    var userID = forumPost.userID;
+                    var userName = '[Gelöscht]'
+                    if (user !== null) {
+                        userName = user.userName;
+                    }
+                    var postID = forumPost.postID;
+                    var titel = forumPost.titel;
+                    var content = forumPost.content;
+                    var returnPost = {
+                        userID,
+                        userName,
+                        postID,
+                        titel,
+                        content
+                    };
+                    callback(null, returnPost);
+                });
             }
         });
     }

@@ -17,8 +17,7 @@ Content-Type: application/json
 }
 
 ### Reading a forumPost
-GET https://localhost:8080/forum/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+GET https://localhost:8080/forum/13
 
 ### Updating a forumPost - Token needs to match userID of the post
 PUT https://localhost:8080/forum/1
