@@ -5,16 +5,15 @@ GET https://localhost:8080/comment/forum/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjI3NjE4NjgsImV4cCI6MTYyMjc5MTg2OH0.vdz_dqSIlTsq2VpaaiZy050V2sIfveq9jc_bQu-uy5g
 
 ### Creating a comment - Token needs to match userID and postID (as parameter and in body) needs to match an existing post
-POST https://localhost:8080/comment/forum/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMjcyNzI2NywiZXhwIjoxNjIyNzU3MjY3fQ.OIQcIa1Af-aAfGIOEGH5CvyTDkZPbhnZOl-lZJGwnQk
+POST https://localhost:8080/comment/forum/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjYyNzk5MDQsImV4cCI6MTYyNjMwOTkwNH0.tlv1i7dO1BEDbwU4_KTghqcsvkxmisBXoAhma_qbSLQ
 Content-Type: application/json 
 
 {
     "comment": 
     {
-        "userID": "eloluap",
-        "postID": "4",
-        "content": "That is the 1st comment on the 4th ForumPost"
+        "postID": "1",
+        "content": "That is the another comment on the 1st ForumPost"
     }
 }
 

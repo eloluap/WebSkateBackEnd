@@ -7,32 +7,27 @@ var commentService = require('./CommentService');
 const { isAuthenticated } = require('../utils/AuthenticationUtils');
 
 // Route for getting a list with all comments of a Post
-router.get('/forum/:postID', isAuthenticated, function (req, res) {
+router.get('/forum/:postID', function (req, res) {
     logger.debug("Trying to read all comments");
-    const permission = ac.can(req.role).readAny('comment');
-    if (permission.granted) {
-        commentService.getCommentsFromPost(req.params.postID, function (err, result) {
-            if (result) {
-                res.send(Object.values(result));
-            } else {
-                res.status(400).end();
-            }
-        });
-    } else {
-        logger.error("No permission for reading all comments");
-        res.status(401).end();
-    }
+    commentService.getCommentsFromPost(req.params.postID, function (err, result) {
+        if (result) {
+            res.send(Object.values(result));
+        } else {
+            res.status(400).end();
+        }
+    });
 });
 
 // Route for creating a comment with values from the jsonbody "comment" on a post with the postID
 router.post('/forum/:postID/', isAuthenticated, function (req, res) {
     logger.debug("Trying to create comment");
-    const permission = (req.userID === req.body.comment.userID)
+    const permission = (req.userID === req.userID)
         ? ac.can(req.role).createOwn('comment')
         : ac.can(req.role).createAny('comment');
     if (permission.granted) {
         if (req.body.comment) {
-            if (req.body.comment.postID === req.params.postID) {
+            if (req.body.comment.postID == req.params.postID) {
+                req.body.comment.userID = req.userID;
                 commentService.createComment(req.body.comment, function (error, result) {
                     if (result) {
                         logger.info("Successfully created comment: " + result.commentID);

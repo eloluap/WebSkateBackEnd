@@ -3,6 +3,8 @@ const User = require('../user/UserModel');
 const Comment = require('./CommentModel');
 var logger = require('../../config/winston');
 
+var userService = require('../user/UserService');
+
 function getCommentsFromPost(postID, callback) {
     ForumPost.exists({ postID: postID }, function (err, exist) {
         if (exist) {
@@ -10,11 +12,37 @@ function getCommentsFromPost(postID, callback) {
             query.select('commentID postID userID content -_id');
             query.exec(function (err, comments) {
                 if (err) {
-                    logger.error("Error on forumPost search: " + err)
+                    logger.error("Error on comment search: " + err)
                     return callback(err, null);
                 } else {
-                    logger.debug("Comments for postID '" + postID + "' found: " + comments);
-                    return callback(null, comments);
+                    var returnComments = [];
+                    var waitForEach = new Promise((resolve, reject) => {
+                        comments.forEach((e, index, array) => {
+                            userService.findUserBy(e.userID, (error, user) => {
+                                var userID = e.userID;
+                                var userName = '[Gelöscht]'
+                                if (user !== null) {
+                                    userName = user.userName;
+                                }
+                                var postID = e.postID;
+                                var commentID = e.commentID;
+                                var content = e.content;
+                                returnComments.push({
+                                    userID,
+                                    userName,
+                                    postID,
+                                    commentID,
+                                    content
+                                });
+                                if (index === array.length - 1) resolve();
+                            });
+                        });
+                    });
+
+                    waitForEach.then(() => {
+                        logger.debug("Comments for postID '" + postID + "' found: " + comments);
+                        return callback(null, returnComments);
+                    });
                 }
             });
         } else {
