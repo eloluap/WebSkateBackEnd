@@ -86,7 +86,10 @@ router.put('/:userID', isAuthenticated, function (req, res) {
             userService.updateUser(req.params.userID, req.body.user, function (error, result) {
                 if (result) {
                     logger.info("Successfully updated user: " + result.userID);
-                    res.end();
+                    const { id, userID, userName, role, email, validated, ...partialObject } = result;
+                    const subset = { id, userID, userName, role, email, validated };
+                    res.send(subset);
+                    /* res.end(); */
                 } else {
                     logger.error("Problem updating user: " + error);
                     res.status(409).end();

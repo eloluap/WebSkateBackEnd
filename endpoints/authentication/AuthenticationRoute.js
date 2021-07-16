@@ -14,8 +14,8 @@ router.post('/loginBasic', function (req, res, next) {
             if (token) {
                 res.header("Authorization", "Bearer " + token);
                 if (user) {
-                    const { id, userID, userName, role, validated, ...partialObject } = user;
-                    const subset = { id, userID, userName, role, validated };
+                    const { id, userID, userName, role, email, validated, ...partialObject } = user;
+                    const subset = { id, userID, userName, role, email, validated };
                     res.send(subset);
                 } else {
                     logger.error("User is null, even though a token has been created. Error: " + err);
