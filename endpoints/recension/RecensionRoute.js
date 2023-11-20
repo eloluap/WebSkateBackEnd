@@ -3,7 +3,7 @@ const router = express.Router();
 var logger = require('../../config/winston');
 var ac = require('../utils/AccessControlUtil');
 
-var recensionService = require('./recensionService');
+var recensionService = require('./RecensionService');
 const { isAuthenticated } = require('../utils/AuthenticationUtils');
 
 // Route for getting a list with all recensions of a Skatepark

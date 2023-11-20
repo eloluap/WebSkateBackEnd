@@ -3,7 +3,7 @@ const router = express.Router();
 var logger = require('../../config/winston');
 var ac = require('../utils/AccessControlUtil');
 
-var skateparkService = require('./skateparkService');
+var skateparkService = require('./SkateparkService');
 const { isAuthenticated } = require('../utils/AuthenticationUtils');
 
 // Route for getting a list with all skateparks

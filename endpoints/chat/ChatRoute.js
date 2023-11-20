@@ -3,7 +3,7 @@ const router = express.Router();
 var logger = require('../../config/winston');
 var ac = require('../utils/AccessControlUtil');
 
-var chatService = require('./chatService');
+var chatService = require('./ChatService');
 const { isAuthenticated } = require('../utils/AuthenticationUtils');
 
 // Route for getting a list with all chats of the logged in user (using userID from token)
