@@ -3,7 +3,7 @@ POST https://localhost:8080/authenticate/loginBasic
 Authorization: Basic YWRtaW46YWRtaW4=
 
 #### Save the token!
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE2MjMwMTI1MTEsImV4cCI6MTYyMzA0MjUxMX0.OAUYugNDZT9Is6h2qhkSWf2eMZSM88Z9g8Q-hkdKze0
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE3MDE3OTI3MDEsImV4cCI6MTcwMTgyMjcwMX0.u54x0ZcTGhbtFrbkwCtebTJZyuAgaakjYTUboLYeMhE
 
 ### Creating a user - needs jsonbody user
 POST https://localhost:8080/users/
@@ -28,7 +28,7 @@ POST https://localhost:8080/authenticate/loginBasic
 Authorization: Basic ZWxvbHVhcDp0ZXN0dXNlcg==
 
 ### Save the token!
-@eloluapToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTYyMzAxMjU5NiwiZXhwIjoxNjIzMDQyNTk2fQ.M0Jtfhu4ImCSDR6BbKMdFKDcfy6JOxGmfLKgCth4xgo
+@eloluapToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZWxvbHVhcCIsImlhdCI6MTcwMTcxNDM1OCwiZXhwIjoxNzAxNzQ0MzU4fQ.sXXmS7AwrlNiyGiKihSdcghkoAsjm4uqckGrb15uHq8
 
 ### Updating a user
 PUT https://localhost:8080/users/eloluap
@@ -76,7 +76,7 @@ Content-Type: application/json
 }
 
 ### Save the token!
-@PaulToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTYyMzAxMzAyNSwiZXhwIjoxNjIzMDQzMDI1fQ.dBMWZxCzogSyyYMS9aLsOQvrqmaC-KTB55_IDLGdKVA
+@PaulToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiUGF1bCIsImlhdCI6MTcwMTcyOTk2OCwiZXhwIjoxNzAxNzU5OTY4fQ.zCCwDebTm0y5dQDMh_4H2uedP1iyrmS89t7cOph1Pog
 
 ### Clicking on Email link - needs inserted link
 GET "insert here"
