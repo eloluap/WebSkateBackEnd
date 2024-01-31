@@ -16,6 +16,7 @@ var recensionRouter = require('./endpoints/recension/RecensionRoute');
 var chatRouter = require('./endpoints/chat/ChatRoute');
 var messageRouter = require('./endpoints/message/MessageRoute');
 var registrationRouter = require('./endpoints/registration/RegistrationRoute');
+var aiRouter = require('./endpoints/ai/AIRoute');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/recension', recensionRouter);
 app.use('/chat', chatRouter);
 app.use('/message', messageRouter);
 app.use('/registration', registrationRouter);
+app.use('/ai', aiRouter);
 
 // Connect to Database
 database.initDB(function (err, db) {

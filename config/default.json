@@ -19,5 +19,8 @@
     "email": {
         "emailName": "PaulWebEngineering2@gmail.com",
         "emailPassword": "shxl ykbi ddvc wtsh"
+    },
+    "openai": {
+        "apiKey": ""
     }
 }
