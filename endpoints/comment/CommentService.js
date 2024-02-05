@@ -17,6 +17,9 @@ function getCommentsFromPost(postID, callback) {
                 } else {
                     var returnComments = [];
                     var waitForEach = new Promise((resolve, reject) => {
+                        if (comments.length == 0) {
+                            resolve();
+                        }
                         comments.forEach((e, index, array) => {
                             userService.findUserBy(e.userID, (error, user) => {
                                 var userID = e.userID;
