@@ -37,7 +37,7 @@ function getCommentsFromPost(postID, callback) {
                                     commentID,
                                     content
                                 });
-                                if (index === array.length - 1) resolve();
+                                if (returnComments.length === array.length) resolve();
                             });
                         });
                     });

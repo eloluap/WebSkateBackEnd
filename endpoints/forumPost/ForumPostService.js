@@ -14,6 +14,9 @@ function getForumPosts(callback) {
         } else {
             var returnPosts = [];
             var waitForEach = new Promise((resolve, reject) => {
+                if (forumPosts.length == 0) {
+                    resolve();
+                }
                 forumPosts.forEach((e, index, array) => {
                     userService.findUserBy(e.userID, (error, user) => {
                         var userID = e.userID;
@@ -31,7 +34,7 @@ function getForumPosts(callback) {
                             titel,
                             content
                         });
-                        if (index === array.length - 1) resolve();
+                        if (returnPosts.length === array.length) resolve();
                     });
                 });
             });
