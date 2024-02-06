@@ -42,14 +42,18 @@ function parseInputForumPage(userInput, callback) {
 }
 
 function getPostPage(postID, callback) {
-    // TODO: Implement the transformation of data to the corresponding body for api call in frontend
-    const returnObj = { postID: postID }
+    if (isNaN(postID)) {
+        callback("The postID is not a number", null);
+    }
+    const returnObj = { call: "GET_post", body: { postID: postID } }
     callback(null, returnObj);
 }
 
 function createPost(title, text, callback) {
-    // TODO: Implement the transformation of data to the corresponding body for api call in frontend
-    const returnObj = { title: title, text: text }
+    if (title.length === 0 || text.length === 0) {
+        callback("The title or text is empty", null);
+    }
+    const returnObj = { call: "POST_post", body: { title: title, text: text } }
     callback(null, returnObj);
 }
 
