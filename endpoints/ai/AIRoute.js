@@ -16,13 +16,11 @@ router.post("/", isAuthenticated, function (req, res, next) {
                     logger.error("Problems parsing user input: " + error);
                     res.status(400).end();
                 }
-                // TODO: Logic executing API Call
                 if (!result || !(result.method == "GET" || result.method == "POST")) {
                     logger.error("Parsing the user input resulted in no valid method");
                     res.status(400).end();
                 }
                 if (result.method == "GET" && result.data && result.data.postID) {
-                    // TODO: Send postID back and execute another API Call to change site and load post and comments
                     aiService.getPostPage(result.data.postID, function (error, returnObj) {
                         if (error) {
                             logger.error("Problems transforming data: " + error);
@@ -31,7 +29,6 @@ router.post("/", isAuthenticated, function (req, res, next) {
                         res.send(returnObj);
                     });
                 } else if (result.method == "POST" && result.data && result.data.title && result.data.text) {
-                    // TODO: Send title and text back and execute another API Call to create the post
                     aiService.createPost(result.data.title, result.data.text, function (error, returnObj) {
                         if (error) {
                             logger.error("Problems transforming data: " + error);
@@ -49,10 +46,64 @@ router.post("/", isAuthenticated, function (req, res, next) {
                 if (error) {
                     logger.error("Problems parsing user input: " + error);
                     res.status(400).end();
+                }
+                // TODO: Logic executing API Call
+                if (!result || !(result.entity == "post" || result.entity == "comment")) {
+                    logger.error("Parsing the user input resulted in no valid entity");
+                    res.status(400).end();
+                }
+                if (!(result.method == "POST" || result.method == "PUT" || result.method == "DELETE")) {
+                    logger.error("Parsing the user input resulted in no valid method");
+                    res.status(400).end();
+                }
+                if (result.entity == "post" && result.method == "PUT" && result.data && (result.data.title || result.data.text)) {
+                    // TODO: Send title and text back and execute another API Call to update the post
+                    aiService.updatePost(postID, result.data.title, result.data.text, function (error, returnObj) {
+                        if (error) {
+                            logger.error("Problems transforming data: " + error);
+                            res.status(400).end();
+                        }
+                        res.send(returnObj);
+                    });
+                } else if (result.entity == "post" && result.method == "DELETE") {
+                    // TODO: Send postID back and execute another API Call to delete the post
+                    aiService.deletePost(postID, function (error, returnObj) {
+                        if (error) {
+                            logger.error("Problems transforming data: " + error);
+                            res.status(400).end();
+                        }
+                        res.send(returnObj);
+                    });
+                } else if (result.entity == "comment" && result.method == "POST" && result.data && result.data.text) {
+                    // TODO: Send text back and execute another API Call to create the comment
+                    aiService.createComment(postID, result.data.text, function (error, returnObj) {
+                        if (error) {
+                            logger.error("Problems transforming data: " + error);
+                            res.status(400).end();
+                        }
+                        res.send(returnObj);
+                    });
+                } else if (result.entity == "comment" && result.method == "PUT" && result.data && result.data.text && result.data.commentID) {
+                    // TODO: Send text and commentID back and execute another API Call to update the comment
+                    aiService.updateComment(commentID, result.data.text, function (error, returnObj) {
+                        if (error) {
+                            logger.error("Problems transforming data: " + error);
+                            res.status(400).end();
+                        }
+                        res.send(returnObj);
+                    });
+                } else if (result.entity == "comment" && result.method == "DELETE" && result.data && result.data.commentID) {
+                    // TODO: Send commentID back and execute another API Call to delete the comment
+                    aiService.deleteComment(commentID, function (error, returnObj) {
+                        if (error) {
+                            logger.error("Problems transforming data: " + error);
+                            res.status(400).end();
+                        }
+                        res.send(returnObj);
+                    });
                 } else {
-                    logger.info("Successfully parsed user input: " + result);
-                    const returnobj = { content: result }
-                    res.send(returnobj);
+                    logger.error("Parsing the user input resulted in not enough information to perform an action");
+                    res.status(400).end();
                 }
             });
         } else {
