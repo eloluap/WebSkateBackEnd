@@ -18,17 +18,17 @@ function parseInputForumPage(userInput, callback) {
         } else {
             const forumPostsString = forumPosts.map(obj => (JSON.stringify(obj))).join(", ");
             logger.debug("Additional current posts info for AI: " + forumPostsString);
-            // TODO: Fine Tune Prompt for cases where not enough input is given
             ai.chat.completions.create({
                 model: 'gpt-3.5-turbo',
-                messages: [{ "role": "system", "content": 'You are a helpful assistant converting user input into one of two json formats, which will follow later. The json data will then be used to do API calls. So never differ from the formats. Depending on if you think someone wants to open something or create something you will use one of these formats: {"method": "GET", "data": {"postID": "put the corresponding postID here"} or {"method": "POST", "data": {"title": "put the extracted or matching title here", "text": "put the text of the forumpost here"}}' },
-                { "role": "system", "content": `For GET requests you can use this list of the current Forum Posts to find out the postID: "${forumPostsString}"` },
-                { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "Erstelle einen Post mit dem Titel "Mein erster Post" und dem Text "Moin Leute, für was ist dieses Forum gedacht?""` },
-                { "role": "assistant", "content": '{"method": "POST", "data": {"title": "Mein erster Post", "text": "Moin Leute, für was ist dieses Forum gedacht?"}}' },
-                { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call (There is no post with this title, thats why the postID is assumed to be 0): "Öffne den Post mit dem Titel "Skaten in Tempelhof""` },
-                { "role": "assistant", "content": '{"method": "GET", "data": {"postID": "0"}}' },
-                { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "${userInput}"` }]
-                // max_tokens: 500
+                response_format: { type: "json_object" },
+                temperature: 0.2,
+                messages: [{ "role": "system", "content": 'You are an expert at extracting information from user input and will use this skill to convert user input into this specific JSON format delimited by triple quotes: """{"method": "GET | POST", "data": {title: "", text: "", postID: ""}}""" Never differ from this format because the JSON data will be used to do API calls. Depending on if you think someone wants to open or create something you will use GET or POST respectively as the value for method. Only fill in the fields you need and leave the rest empty.' },
+                { "role": "system", "content": `For GET requests use this list of the current forumposts delimited by triple quotes to find out the corresponding postID: """${forumPostsString}"""` },
+                { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Öffne den Post mit dem Titel 'Skaten in Tempelhof'"""` },
+                { "role": "assistant", "content": '{"method": "GET", "data": {"title": "", "text": "", "postID": "0"}}' },
+                { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Erstelle einen Post mit dem Titel 'Mein erster Post' und dem Text 'Moin Leute, für was ist dieses Forum gedacht?'"""` },
+                { "role": "assistant", "content": '{"method": "POST", "data": {"title": "Mein erster Post", "text": "Moin Leute, für was ist dieses Forum gedacht?", "postID": ""}}' },
+                { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """${userInput}"""` }]
             }).then(gptResponse => {
                 const parsedDataString = gptResponse.choices[0].message.content;
                 logger.debug("Successfully parsed user input: " + parsedDataString);
@@ -59,7 +59,7 @@ function createPost(title, text, callback) {
     }
 }
 
-// returns {method: "POST | PUT | DELETE", data: {title: "", text: "", commentID: ""}} to callback function
+// returns {method: "POST | PUT | DELETE", entity: "post | comment", data: {title: "", text: "", commentID: ""}} to callback function
 function parseInputPostPage(userInput, postID, callback) {
     logger.info("AIService: Parsing user Input on a Post Page");
     forumPostService.findPostBy(postID, function (err, post) {
@@ -72,28 +72,27 @@ function parseInputPostPage(userInput, postID, callback) {
                     logger.error("There is no forumPost with this postID");
                     callback(err2, null);
                 } else {
-                    // TODO: Maybe sanitize data before giving it to AI - maybe give username to AI to help with checking for "my" comment
                     const forumPostString = JSON.stringify(post);
                     logger.debug("Additional current post info for AI: " + forumPostString);
                     const commentsString = comments.map(obj => (JSON.stringify(obj))).join(", ");
                     logger.debug("Additional current comments on post info for AI: " + commentsString);
-                    // TODO: Tune Prompt with post and comments Data for Post Page
                     ai.chat.completions.create({
                         model: 'gpt-3.5-turbo',
-                        messages: [{ "role": "system", "content": 'You are a helpful assistant converting user input into one of three json formats, which will follow later. The json data will then be used to do API calls. So never differ from the formats. In the format there will be a key value pair where the key is entity and you should put either "post" or "comment" as the value depending on if you think the user input is about a forumpost or a comment. Its not possible to create a new forumpost. Depending on if you think someone wants to create, update or delete something you will use one of these formats: {"method": "POST", "entity": "comment", "data": {"text": "put the text of the comment here"}}, {"method": "PUT", "entity": "put comment or post here" "data": {"title": "put the new extracted or matching title here, leave empty for a comment entity", "text": "put the new text of the forumpost or comment here", "commentID": "for comments put the extracted commentID here, leave empty for a post entity"}}, {"method": "DELETE", "entity": "put comment or post here", "data": {"commentID": "for comments put the extracted commentID here, leave empty for a post entity"}}' },
-                        { "role": "system", "content": `For PUT and DELETE requests for the entity comment you can use this list of the current comments on this post to find out the commentID: "${commentsString}"` },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "Update den Post bitte zu dem neuen Titel "Mittlerweile habe ich Erfahrung" und dem Text "Achso, dafür ist das Forum gedacht!""` },
-                        { "role": "assistant", "content": '{"method": "PUT", "entity": "post", "data": {"title": "Mittlerweile habe ich Erfahrung", "text": "Achso, dafür ist das Forum gedacht!"}}' },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "Lösche den Post"` },
-                        { "role": "assistant", "content": '{"method": "DELETE", "entity": "post"}' },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "Erstelle einen Kommentar mit dem Text "Ich persönlich finde den Skatepark eigentlich recht gut!""` },
-                        { "role": "assistant", "content": '{"method": "POST", "entity": "comment", "data": {"text": "Ich persönlich finde den Skatepark eigentlich recht gut!"}}' },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call (There is no comment with this text in the data, thats why the commentID is assumed to be 0): "Update den Kommentar "Ich persönlich finde..." zu "Jetzt wo ich nochmal nachgedacht habe, bin ich mir doch nicht mehr so sicher.""` },
-                        { "role": "assistant", "content": '{"method": "PUT", "entity": "comment", "data": {"text": "Jetzt wo ich nochmal nachgedacht habe, bin ich mir doch nicht mehr so sicher.", "commentID": "0"}}' },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call (There is no comment with this text in the data, thats why the commentID is assumed to be 0): "Lösche den Kommentar mit dem Text "Jetzt wo ich nochmal nachgedacht habe, bin ich mir doch nicht mehr so sicher.""` },
-                        { "role": "assistant", "content": '{"method": "DELETE", "entity": "comment", "data": {"commentID": "0"}}' },
-                        { "role": "user", "content": `Parse the following user input into a matching json format to be used for an API Call: "${userInput}"` }]
-                        // max_tokens: 500
+                        response_format: { type: "json_object" },
+                        temperature: 0.2,
+                        messages: [{ "role": "system", "content": 'You are an expert at extracting information from user input and will use this skill to convert user input into this specific JSON format delimited by triple quotes: """{"method": "POST | PUT | DELETE", "entity": "post | comment", "data": {title: "", text: "", commentID: ""}}""" Never differ from this format because the JSON data will be used to do API calls. In the format for the key "entity" you should put either "post" or "comment" as the value depending on if you think the user input is about a forumpost or a comment. Depending on if you think someone wants to create, update or delete something you will use POST, PUT or DELETE respectively as the value for method. Creating a new forumpost is not possible, so your answer can not include POST as the method if the entity is post, use PUT instead. Only fill in the fields you need and leave the rest empty.' },
+                        { "role": "system", "content": `For PUT and DELETE requests for the entity comment use this list of the current comments on this post delimited by triple quotes to find out the corresponding commentID: """${commentsString}"""` },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Update den Post bitte zu dem neuen Titel 'Mittlerweile habe ich Erfahrung' und dem Text 'Achso, dafür ist das Forum gedacht!'"""` },
+                        { "role": "assistant", "content": '{"method": "PUT", "entity": "post", "data": {"title": "Mittlerweile habe ich Erfahrung", "text": "Achso, dafür ist das Forum gedacht!", "commentID": "0"}}' },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Lösche den Post"""` },
+                        { "role": "assistant", "content": '{"method": "DELETE", "entity": "post"}, "data": {"title": "", "text": "", "commentID": ""}}' },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Erstelle einen Kommentar mit dem Text 'Ich persönlich finde den Skatepark eigentlich recht gut!'"""` },
+                        { "role": "assistant", "content": '{"method": "POST", "entity": "comment", "data": {"title": "", "text": "Ich persönlich finde den Skatepark eigentlich recht gut!", "commentID": ""}}' },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Update den Kommentar 'Ich persönlich finde...' zu 'Jetzt wo ich nochmal nachgedacht habe, bin ich mir doch nicht mehr so sicher.'"""` },
+                        { "role": "assistant", "content": '{"method": "PUT", "entity": "comment", "data": {"title": "", "text": "Jetzt wo ich nochmal nachgedacht habe, bin ich mir doch nicht mehr so sicher.", "commentID": "0"}}' },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """Lösche den Kommentar mit dem Text 'Ich persönlich finde den Skatepark eigentlich recht gut!'"""` },
+                        { "role": "assistant", "content": '{"method": "DELETE", "entity": "comment", "data": {"title": "", "text": "", "commentID": "0"}}' },
+                        { "role": "user", "content": `Parse the following user input delimited by triple quotes into the specified JSON format: """${userInput}"""` }]
                     }).then(gptResponse => {
                         const parsedDataString = gptResponse.choices[0].message.content;
                         logger.debug("Successfully parsed user input: " + parsedDataString);
